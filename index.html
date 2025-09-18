@@ -177,7 +177,8 @@
                         <div class="project-links">
                             <a href="https://github.com/alelopz/Programacion-orientada-a-objetos.git"
                                 class="project-link" target="_blank"><i class="fab fa-github"></i> Código</a>
-                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+                            <a href="#" class="project-link gallery-trigger" data-project="poo-csharp"><i
+                                    class="fas fa-images"></i> Demo</a>
                         </div>
                     </div>
                 </div>
@@ -200,7 +201,8 @@
                         <div class="project-links">
                             <a href="https://github.com/alelopz/reservaCine.git" class="project-link" target="_blank"><i
                                     class="fab fa-github"></i> Código</a>
-                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+                            <a href="#" class="project-link gallery-trigger" data-project="reserva-cine"><i
+                                    class="fas fa-images"></i> Demo</a>
                         </div>
                     </div>
                 </div>
@@ -224,9 +226,11 @@
                         <div class="project-links">
                             <a href="https://github.com/alelopz/TrueBeauty.git" class="project-link" target="_blank"><i
                                     class="fab fa-github"></i> Código</a>
-                            <a href="https://alelopz.github.io/TrueBeauty/" class="project-link">
+                            <a href="https://alelopz.github.io/TrueBeauty/" class="project-link" target="_blank">
                                 <i class="fas fa-external-link-alt"></i> Demo
                             </a>
+                            <a href="#" class="project-link gallery-trigger" data-project="true-beauty"><i
+                                    class="fas fa-images"></i> Galería</a>
                         </div>
                     </div>
                 </div>
@@ -251,7 +255,8 @@
                         <div class="project-links">
                             <a href="https://github.com/alelopz/Carrito.git" class="project-link" target="_blank"><i
                                     class="fab fa-github"></i> Código</a>
-                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+                            <a href="#" class="project-link gallery-trigger" data-project="carrito"><i
+                                    class="fas fa-images"></i> Demo</a>
                         </div>
                     </div>
                 </div>
@@ -277,7 +282,8 @@
                         <div class="project-links">
                             <a href="https://github.com/constanzamz/sistema-restaurante.git" class="project-link"
                                 target="_blank"><i class="fab fa-github"></i> Código</a>
-                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+                            <a href="#" class="project-link gallery-trigger" data-project="restaurante"><i
+                                    class="fas fa-images"></i> Demo</a>
                         </div>
                     </div>
                 </div>
@@ -387,6 +393,36 @@
             </div>
         </div>
     </footer>
+
+    <!-- Modal de Galería -->
+    <div id="galleryModal" class="gallery-modal">
+        <div class="gallery-overlay"></div>
+        <div class="gallery-container">
+            <div class="gallery-header">
+                <h3 id="galleryTitle">Galería del Proyecto</h3>
+                <button class="gallery-close" id="galleryClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="gallery-content">
+                <div class="gallery-main-image">
+                    <img id="galleryMainImg" src="" alt="Imagen del proyecto">
+                    <button class="gallery-nav gallery-prev" id="galleryPrev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="gallery-nav gallery-next" id="galleryNext">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="gallery-thumbnails" id="galleryThumbnails">
+                    <!-- Las miniaturas se generarán dinámicamente -->
+                </div>
+            </div>
+            <div class="gallery-info">
+                <p id="galleryCounter">1 / 1</p>
+            </div>
+        </div>
+    </div>
 
     <script src="assets/js/config.js"></script>
     <script src="assets/js/image-paths.js"></script>

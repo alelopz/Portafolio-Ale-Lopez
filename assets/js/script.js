@@ -377,4 +377,294 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mainContent) {
         mainContent.id = 'main-content';
     }
-}); 
+});
+
+// ========================================
+// GALERÍA DE PROYECTOS
+// ========================================
+
+// Configuración de imágenes por proyecto
+const projectImages = {
+    'poo-csharp': {
+        title: 'Programación Orientada a Objetos en C#',
+        images: [
+            'assets/images/projects/poo-csharp/1.jpg',
+            'assets/images/projects/poo-csharp/2.jpg',
+            'assets/images/projects/poo-csharp/3.jpg'
+        ]
+    },
+    'reserva-cine': {
+        title: 'Reserva de Cine (POO en C#)',
+        images: [
+            'assets/images/projects/reserva-cine/1.jpg',
+            'assets/images/projects/reserva-cine/2.jpg',
+            'assets/images/projects/reserva-cine/3.jpg'
+        ]
+    },
+    'true-beauty': {
+        title: 'True Beauty - Página Web',
+        images: [
+            'assets/images/projects/true-beauty/1.jpg',
+            'assets/images/projects/true-beauty/2.jpg',
+            'assets/images/projects/true-beauty/3.jpg',
+            'assets/images/projects/true-beauty/4.jpg'
+        ]
+    },
+    'carrito': {
+        title: 'Sistema de Pedidos con Carrito',
+        images: [
+            'assets/images/projects/carrito/1.jpg',
+            'assets/images/projects/carrito/2.jpg',
+            'assets/images/projects/carrito/3.jpg'
+        ]
+    },
+    'restaurante': {
+        title: 'Sistema Restaurante (Proyecto Grupal)',
+        images: [
+            'assets/images/projects/restaurante/1.jpg',
+            'assets/images/projects/restaurante/2.jpg',
+            'assets/images/projects/restaurante/3.jpg',
+            'assets/images/projects/restaurante/4.jpg',
+            'assets/images/projects/restaurante/5.jpg'
+        ]
+    }
+};
+
+// Variables globales de la galería
+let currentProject = null;
+let currentImageIndex = 0;
+let galleryModal = null;
+let galleryMainImg = null;
+let galleryThumbnails = null;
+let galleryTitle = null;
+let galleryCounter = null;
+let galleryPrev = null;
+let galleryNext = null;
+let galleryClose = null;
+
+// Inicializar galería cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+    initializeGallery();
+});
+
+function initializeGallery() {
+    // Obtener elementos del DOM
+    galleryModal = document.getElementById('galleryModal');
+    galleryMainImg = document.getElementById('galleryMainImg');
+    galleryThumbnails = document.getElementById('galleryThumbnails');
+    galleryTitle = document.getElementById('galleryTitle');
+    galleryCounter = document.getElementById('galleryCounter');
+    galleryPrev = document.getElementById('galleryPrev');
+    galleryNext = document.getElementById('galleryNext');
+    galleryClose = document.getElementById('galleryClose');
+
+    // Agregar event listeners a los botones de galería
+    document.querySelectorAll('.gallery-trigger').forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            const projectId = trigger.getAttribute('data-project');
+            openGallery(projectId);
+        });
+    });
+
+    // Event listeners para controles de la galería
+    if (galleryClose) {
+        galleryClose.addEventListener('click', closeGallery);
+    }
+
+    if (galleryPrev) {
+        galleryPrev.addEventListener('click', () => navigateImage(-1));
+    }
+
+    if (galleryNext) {
+        galleryNext.addEventListener('click', () => navigateImage(1));
+    }
+
+    // Cerrar galería al hacer clic en el overlay
+    if (galleryModal) {
+        galleryModal.addEventListener('click', (e) => {
+            if (e.target === galleryModal || e.target.classList.contains('gallery-overlay')) {
+                closeGallery();
+            }
+        });
+    }
+
+    // Navegación con teclado
+    document.addEventListener('keydown', (e) => {
+        if (galleryModal && galleryModal.classList.contains('active')) {
+            switch (e.key) {
+                case 'Escape':
+                    closeGallery();
+                    break;
+                case 'ArrowLeft':
+                    navigateImage(-1);
+                    break;
+                case 'ArrowRight':
+                    navigateImage(1);
+                    break;
+            }
+        }
+    });
+}
+
+function openGallery(projectId) {
+    const project = projectImages[projectId];
+
+    if (!project || !project.images || project.images.length === 0) {
+        console.warn('No se encontraron imágenes para el proyecto:', projectId);
+        showNotification('No hay imágenes disponibles para este proyecto', 'info');
+        return;
+    }
+
+    currentProject = projectId;
+    currentImageIndex = 0;
+
+    // Actualizar título
+    if (galleryTitle) {
+        galleryTitle.textContent = project.title;
+    }
+
+    // Cargar primera imagen
+    loadImage(project.images[0]);
+
+    // Generar miniaturas
+    generateThumbnails(project.images);
+
+    // Actualizar contador
+    updateCounter();
+
+    // Mostrar modal
+    if (galleryModal) {
+        galleryModal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevenir scroll del body
+    }
+
+    // Actualizar visibilidad de botones de navegación
+    updateNavigationButtons(project.images.length);
+}
+
+function closeGallery() {
+    if (galleryModal) {
+        galleryModal.classList.remove('active');
+        document.body.style.overflow = ''; // Restaurar scroll del body
+    }
+
+    // Limpiar variables
+    currentProject = null;
+    currentImageIndex = 0;
+}
+
+function loadImage(imageSrc) {
+    if (galleryMainImg) {
+        // Mostrar loading
+        galleryMainImg.style.opacity = '0.5';
+
+        // Crear nueva imagen para preload
+        const img = new Image();
+        img.onload = () => {
+            galleryMainImg.src = imageSrc;
+            galleryMainImg.style.opacity = '1';
+        };
+        img.onerror = () => {
+            console.error('Error al cargar la imagen:', imageSrc);
+            galleryMainImg.style.opacity = '1';
+            showNotification('Error al cargar la imagen', 'error');
+        };
+        img.src = imageSrc;
+    }
+}
+
+function generateThumbnails(images) {
+    if (!galleryThumbnails) return;
+
+    // Limpiar miniaturas existentes
+    galleryThumbnails.innerHTML = '';
+
+    images.forEach((imageSrc, index) => {
+        const thumbnail = document.createElement('div');
+        thumbnail.className = 'gallery-thumbnail';
+        if (index === currentImageIndex) {
+            thumbnail.classList.add('active');
+        }
+
+        const img = document.createElement('img');
+        img.src = imageSrc;
+        img.alt = `Imagen ${index + 1}`;
+        img.loading = 'lazy';
+
+        thumbnail.appendChild(img);
+        thumbnail.addEventListener('click', () => {
+            currentImageIndex = index;
+            loadImage(imageSrc);
+            updateThumbnails();
+            updateCounter();
+        });
+
+        galleryThumbnails.appendChild(thumbnail);
+    });
+}
+
+function updateThumbnails() {
+    const thumbnails = galleryThumbnails.querySelectorAll('.gallery-thumbnail');
+    thumbnails.forEach((thumb, index) => {
+        thumb.classList.toggle('active', index === currentImageIndex);
+    });
+}
+
+function navigateImage(direction) {
+    if (!currentProject) return;
+
+    const project = projectImages[currentProject];
+    if (!project || !project.images) return;
+
+    currentImageIndex += direction;
+
+    // Circular navigation
+    if (currentImageIndex < 0) {
+        currentImageIndex = project.images.length - 1;
+    } else if (currentImageIndex >= project.images.length) {
+        currentImageIndex = 0;
+    }
+
+    loadImage(project.images[currentImageIndex]);
+    updateThumbnails();
+    updateCounter();
+}
+
+function updateCounter() {
+    if (!currentProject) return;
+
+    const project = projectImages[currentProject];
+    if (!project || !project.images) return;
+
+    if (galleryCounter) {
+        galleryCounter.textContent = `${currentImageIndex + 1} / ${project.images.length}`;
+    }
+}
+
+function updateNavigationButtons(totalImages) {
+    if (galleryPrev && galleryNext) {
+        // Los botones siempre están visibles para navegación circular
+        galleryPrev.style.display = 'flex';
+        galleryNext.style.display = 'flex';
+    }
+}
+
+// Función para agregar nuevas imágenes a un proyecto
+function addProjectImages(projectId, images) {
+    if (projectImages[projectId]) {
+        projectImages[projectId].images = [...projectImages[projectId].images, ...images];
+    } else {
+        projectImages[projectId] = {
+            title: 'Proyecto',
+            images: images
+        };
+    }
+}
+
+// Función para actualizar el título de un proyecto
+function updateProjectTitle(projectId, title) {
+    if (projectImages[projectId]) {
+        projectImages[projectId].title = title;
+    }
+} 
