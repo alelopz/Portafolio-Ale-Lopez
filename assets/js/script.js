@@ -398,7 +398,9 @@ const projectImages = {
         images: [
             'assets/images/projects/reserva-cine/1.jpg',
             'assets/images/projects/reserva-cine/2.jpg',
-            'assets/images/projects/reserva-cine/3.jpg'
+            'assets/images/projects/reserva-cine/3.jpg',
+            'assets/images/projects/reserva-cine/3.jpg',
+            'assets/images/projects/reserva-cine/5.jpg'
         ]
     },
     'true-beauty': {
