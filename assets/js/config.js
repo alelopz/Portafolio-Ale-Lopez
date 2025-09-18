@@ -107,6 +107,20 @@ const PORTFOLIO_CONFIG = {
             ]
         },
         {
+            id: "reserva-cine",
+            title: "Reserva de Cine (POO en C#)",
+            description: "Aplicación de consola para gestionar reservas de cine aplicando principios de POO: clases, encapsulamiento y validaciones.",
+            technologies: ["C#", ".NET", "POO"],
+            image: "assets/images/projects/reserva-cine.jpg",
+            github: "https://github.com/alelopz/reservaCine.git", // repo público
+            demo: "#",
+            features: [
+                "Gestión de salas, funciones y reservas",
+                "Validaciones y manejo de errores",
+                "Modelo orientado a objetos (Cine, Función, Boleto)"
+            ]
+        },
+        {
             id: "true-beauty",
             title: "True Beauty - Página Web",
             description: "Sitio web informativo y responsivo dedicado a la serie coreana True Beauty, con diseño atractivo, integración de imágenes y secciones interactivas. Desarrollado utilizando Bootstrap para maquetado y CSS personalizado para estilos únicos.",
