@@ -366,6 +366,24 @@ section {
     align-items: center;
 }
 
+.profile-wrapper {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--primary-color);
+    box-shadow: var(--shadow-md);
+    background: var(--gray-100);
+}
+
+.profile-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
 .image-placeholder {
     width: 250px;
     height: 250px;
@@ -829,6 +847,12 @@ section {
     .about-image {
         order: -1;
         /* Imagen arriba en móvil */
+    }
+
+    .profile-wrapper {
+        width: 200px;
+        height: 200px;
+        border-width: 3px;
     }
 
     .skills-grid {
