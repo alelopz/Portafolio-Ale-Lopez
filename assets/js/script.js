@@ -390,7 +390,10 @@ const projectImages = {
         images: [
             'assets/images/projects/poo-csharp/1.jpg',
             'assets/images/projects/poo-csharp/2.jpg',
-            'assets/images/projects/poo-csharp/3.jpg'
+            'assets/images/projects/poo-csharp/3.jpg',
+            'assets/images/projects/poo-csharp/4.jpg',
+            'assets/images/projects/poo-csharp/5.jpg',
+            'assets/images/projects/poo-csharp/6.jpg'
         ]
     },
     'reserva-cine': {
