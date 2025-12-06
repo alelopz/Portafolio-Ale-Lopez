@@ -2,6 +2,17 @@
 // CONFIGURACIÓN DE RUTAS DE IMÁGENES
 // ========================================
 // Centraliza todas las rutas de imágenes para facilitar la gestión
+//
+// RECOMENDACIONES DE TAMAÑO DE IMÁGENES:
+// ========================================
+// Imágenes de proyectos (blog.jpg, poo-csharp.jpg, etc.):
+//   - Tamaño recomendado: 800x500 píxeles (relación 16:10)
+//   - Tamaño mínimo: 600x400 píxeles
+//   - Tamaño máximo: 1200x750 píxeles (para pantallas grandes)
+//   - Formato: JPG (mejor compresión) o WebP (mejor calidad/tamaño)
+//   - Peso recomendado: 100-300 KB por imagen
+//   - Las imágenes se mostrarán con object-fit: cover en un contenedor de 250px de altura
+//   - Relación de aspecto: 16:10 o 4:3 funcionan mejor
 
 const IMAGE_PATHS = {
     // ========================================
@@ -17,7 +28,9 @@ const IMAGE_PATHS = {
     // IMÁGENES DE PROYECTOS
     // ========================================
     projects: {
+        blog: "assets/images/projects/blog.jpg",
         pooCsharp: "assets/images/projects/poo-csharp.jpg",
+        reservaCine: "assets/images/projects/reserva-cine.jpg",
         trueBeauty: "assets/images/projects/true-beauty.jpg",
         carrito: "assets/images/projects/carrito.jpg",
         restaurante: "assets/images/projects/restaurante.jpg"
@@ -129,16 +142,58 @@ function updateImages() {
     }
 
     // Actualizar imágenes de proyectos
+    // Mapeo manual de proyectos según el orden en el HTML
+    const projectMapping = [
+        'blog',        // 1. Pagina web de blogs
+        'pooCsharp',   // 2. Gestion de productos en C#
+        'reservaCine', // 3. Reserva de Cine (POO en C#)
+        'trueBeauty'   // 4. True Beauty - Página Web
+    ];
+
     const projectImages = document.querySelectorAll('.project-image');
     projectImages.forEach((container, index) => {
-        const projectKeys = Object.keys(IMAGE_PATHS.projects);
-        if (projectKeys[index]) {
-            const projectKey = projectKeys[index];
+        if (projectMapping[index]) {
+            const projectKey = projectMapping[index];
             const imagePath = IMAGE_PATHS.projects[projectKey];
             if (imagePath) {
-                container.innerHTML = `
-                    <img src="${imagePath}" alt="Imagen del proyecto" class="project-image-img">
-                `;
+                // Verificar si la imagen existe antes de cargarla
+                imageExists(imagePath).then(exists => {
+                    if (exists) {
+                        // Verificar si ya tiene una imagen o solo el placeholder
+                        const existingImg = container.querySelector('img');
+                        if (!existingImg) {
+                            // Crear la imagen
+                            const img = document.createElement('img');
+                            img.src = imagePath;
+                            img.alt = `Imagen del proyecto ${index + 1}`;
+                            img.loading = 'lazy';
+
+                            // Manejar errores de carga
+                            img.onerror = () => {
+                                console.warn(`Error al cargar imagen: ${imagePath}`);
+                                // Mantener el placeholder si falla la carga
+                                if (!container.querySelector('.project-placeholder')) {
+                                    const placeholder = document.createElement('div');
+                                    placeholder.className = 'project-placeholder';
+                                    placeholder.innerHTML = '<i class="fas fa-image"></i>';
+                                    container.appendChild(placeholder);
+                                }
+                            };
+
+                            // Reemplazar el placeholder con la imagen
+                            const placeholder = container.querySelector('.project-placeholder');
+                            if (placeholder) {
+                                placeholder.remove();
+                            }
+                            container.appendChild(img);
+                        } else {
+                            // Si ya existe, solo actualizar el src
+                            existingImg.src = imagePath;
+                        }
+                    } else {
+                        console.warn(`Imagen no encontrada: ${imagePath}`);
+                    }
+                });
             }
         }
     });
