@@ -6,7 +6,8 @@ Esta carpeta contiene las imágenes para la galería de proyectos del portafolio
 
 ```
 assets/images/projects/
-├── poo-csharp/          # Programación Orientada a Objetos en C#
+├── blog/                # Página Web de Blogs
+├── poo-csharp/          # Gestión de Productos en C#
 ├── reserva-cine/        # Reserva de Cine (POO en C#)
 ├── true-beauty/         # True Beauty - Página Web
 ├── carrito/             # Sistema de Pedidos con Carrito

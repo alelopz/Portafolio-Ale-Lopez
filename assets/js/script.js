@@ -385,8 +385,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Configuración de imágenes por proyecto
 const projectImages = {
+    'blog': {
+        title: 'Página Web de Blogs',
+        images: [
+            'assets/images/projects/blog/1.jpg',
+            'assets/images/projects/blog/2.jpg',
+            'assets/images/projects/blog/3.jpg',
+            'assets/images/projects/blog/4.jpg',
+            'assets/images/projects/blog/5.jpg',
+            'assets/images/projects/blog/6.jpg',
+            'assets/images/projects/blog/7.jpg',
+            'assets/images/projects/blog/8.jpg'
+        ]
+    },
     'poo-csharp': {
-        title: 'Programación Orientada a Objetos en C#',
+        title: 'Gestión de Productos en C#',
         images: [
             'assets/images/projects/poo-csharp/1.jpg',
             'assets/images/projects/poo-csharp/2.jpg',
