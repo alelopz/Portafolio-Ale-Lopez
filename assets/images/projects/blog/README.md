@@ -42,3 +42,4 @@ Una vez que agregues las imágenes con los nombres `1.jpg`, `2.jpg`, etc., apare
 
 
 
+

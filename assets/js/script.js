@@ -425,7 +425,8 @@ const projectImages = {
             'assets/images/projects/true-beauty/1.jpg',
             'assets/images/projects/true-beauty/2.jpg',
             'assets/images/projects/true-beauty/3.jpg',
-            'assets/images/projects/true-beauty/4.jpg'
+            'assets/images/projects/true-beauty/4.jpg',
+            'assets/images/projects/true-beauty/5.jpg'
         ]
     },
     'carrito': {
